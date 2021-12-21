@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <div class="wrapper-morpion">
-      <b-row class="grille-morpion row no-gutters">
+      <b-row
+        class="grille-morpion row no-gutters"
+        :class="[freezPlayer ? 'freeze' : '']"
+      >
         <b-col cols="6">
           <div class="score win-X">
             score X: <br />
@@ -14,104 +17,18 @@
             {{ score_pc }}
           </div>
         </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-0"
-            data-id="0"
-            readonly
-            v-model="grille[0]"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-1"
-            data-id="1"
-            readonly
-            v-model="grille[1]"
-            :key="1"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-2"
-            data-id="2"
-            readonly
-            v-model="grille[2]"
-            :key="2"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-3"
-            data-id="3"
-            readonly
-            v-model="grille[3]"
-            :key="3"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-4"
-            data-id="4"
-            readonly
-            v-model="grille[4]"
-            :key="4"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-5"
-            data-id="5"
-            readonly
-            v-model="grille[5]"
-            :key="5"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-6"
-            data-id="6"
-            readonly
-            v-model="grille[6]"
-            :key="6"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-7"
-            data-id="7"
-            readonly
-            v-model="grille[7]"
-            :key="7"
-            @click="play($event)"
-          />
-        </b-col>
-        <b-col cols="4">
-          <input
-            class="cell"
-            id="cell-8"
-            data-id="8"
-            readonly
-            v-model="grille[8]"
-            :key="8"
-            @click="play($event)"
-          />
-        </b-col>
+        <template v-for="index in 9">
+          <b-col cols="4" :key="index - 1">
+            <input
+              class="cell"
+              :id="'cell-' + (index - 1)"
+              :data-id="index - 1"
+              readonly
+              v-model="grille[index - 1]"
+              @click="play($event)"
+            />
+          </b-col>
+        </template>
       </b-row>
     </div>
     <div class="annonce-winner">
@@ -226,6 +143,7 @@ export default {
           document
             .getElementById("cell-" + elm)
             .classList.add("win-" + playerSymbole);
+          console.log("line ganant : ", elm);
         }
         this.gameOver = true;
         return true;
@@ -261,6 +179,7 @@ export default {
 <style lang="scss">
 $color-X: green;
 $color-O: orange;
+$color-freeze: #eee;
 .wrapper-morpion {
   width: 100%;
   display: flex;
@@ -284,12 +203,16 @@ $color-O: orange;
     font-weight: bold;
     font-size: 30px;
     outline: none;
+
     &.win-X {
       background-color: $color-X;
     }
     &.win-O {
       background-color: $color-O;
     }
+  }
+  &.freeze {
+    opacity: 0.65;
   }
   .score {
     background-color: palegoldenrod;
