@@ -1,13 +1,17 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <GrilleMorpion />
     </div>
-    <router-view />
   </div>
 </template>
 
+<script>
+import GrilleMorpion from "@/components/GrilleMorpion.vue";
+export default {
+  components: { GrilleMorpion },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
